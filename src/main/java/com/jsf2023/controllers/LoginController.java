@@ -48,7 +48,7 @@ public class LoginController {
 			}
 		} else {
 			FacesContext.getCurrentInstance().addMessage("formLogin:txtUsuario",
-					new FacesMessage(FacesMessage.SEVERITY_FATAL, "la pagina no existe", ""));
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, "Nombre de usuario y/o contraseña incorrectos", ""));
 		}
 	}
 	

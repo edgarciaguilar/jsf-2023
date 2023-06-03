@@ -1,4 +1,21 @@
 .colorText{
 	color:green;
-	
+}
+
+.headerTable {
+	text-align:center;
+	background: none repeat scroll 00 #ffa348;
+	border-bottom: 1px solid #BBBBBB;
+	padding: 16px;
+}
+
+.rowTable {
+	text-align: center;
+	background: none repeat scroll 0 0 #09c795;
+	border-top: 1px solid #BBB;
+}
+.rowTableLine {
+	text-align: center;
+	background: none repeat scroll 0 0 #ffbe6f;
+	border-top: 1px solid #BBB;
 }

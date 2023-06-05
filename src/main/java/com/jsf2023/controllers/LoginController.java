@@ -4,8 +4,11 @@ import java.io.IOException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import com.jsf2023.dto.UsuarioDTO;
 
 /*
  * @autor Edgar García 
@@ -17,6 +20,22 @@ public class LoginController {
 
 	private String usuario;
 	private String password;
+	
+	/*
+	 * Bean que mantiene la informacion del usuario en sesion
+	 * similar al Autowired
+	 * */
+
+	@ManagedProperty("#{sessionController}")
+	private SessionController sessionController;
+	
+	public SessionController getSessionController() {
+		return sessionController;
+	}
+
+	public void setSessionController(SessionController sessionController) {
+		this.sessionController = sessionController;
+	}
 
 	public String getUsuario() {
 		return usuario;
@@ -42,6 +61,11 @@ public class LoginController {
 			//FacesContext.getCurrentInstance().addMessage("formLogin:txtUsuario",
 					//new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario incorrecto", ""));
 			try {
+				UsuarioDTO usuarioDTO = new UsuarioDTO();
+				usuarioDTO.setUsuario(this.usuario);
+				usuarioDTO.setPassword(this.password);
+				
+				this.sessionController.setUsuarioDTO(usuarioDTO);
 				this.redireccionar("main.xhtml");
 			} catch (IOException e) {
 				e.printStackTrace();

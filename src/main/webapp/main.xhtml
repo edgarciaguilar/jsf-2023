@@ -7,35 +7,81 @@
 <h:head>
 	<title>Pantalla principal</title>
 	<h:outputStylesheet library="css" name="styles.css"></h:outputStylesheet>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </h:head>
 
 <h:body>
-	Bienvenidos al Dashboard
+	Bienvenido #{sessionController.usuarioDTO.usuario} al Dashboard
+	
 	
 	<!--for(Empleados empleado: empleados)  -->
-	<h:dataTable id="tblEmpleados" var="empleado" value="#{principalController.empleados}" headerClass="headerTable" rowClasses="rowTable rowTableLine">
-		<h:column>
-			<f:facet name="header">Nombre</f:facet>
-			<h:outputText value="#{empleado.nombre}"></h:outputText>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Primer Apellido</f:facet>
-			<h:outputText value="#{empleado.primerApellido}"></h:outputText>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Segundo Apellido</f:facet>
-			<h:outputText value="#{empleado.segundoApellido}"></h:outputText>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Puesto</f:facet>
-			<h:outputText value="#{empleado.puesto}"></h:outputText>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Estatus</f:facet>
-			<h:outputText value="ACTIVO" rendered="#{empleado.estatus}"></h:outputText>
-			<h:outputText value="INACTIVO" rendered="#{!empleado.estatus}"></h:outputText>
-			
-		</h:column>
-	</h:dataTable>
+	<h:form>
+	<h:commandButton value="Cerrar sesión" action="#{sessionClosedController.cerrarSesion}"></h:commandButton>
+		<p:dataTable id="tblEmpleados" var="empleado"
+			value="#{principalController.empleados}" paginator="true" rows="10"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} 
+			{NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+			currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} alumnos" reflow="true"
+			rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No se encontraron registros"
+			filteredValue="#{principalController.empleadosFiltrados}">
+
+			<f:facet name="{Exporters}">
+				<div style="float: right; padding-top: 5px;">
+					<h:commandLink>
+						<p:graphicImage name="images/excel.png" width="24" />
+						<p:dataExporter type="xls" target="tblEmpleados" fileName="reporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="images/xlsx.png" width="24" />
+						<p:dataExporter type="xlsxstream" target="tblEmpleados" fileName="reporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="images/pdf.png" width="24" />
+						<p:dataExporter type="pdf" target="tblEmpleados" fileName="reporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="images/csv.png" width="24" />
+						<p:dataExporter type="csv" target="tblEmpleados" fileName="reporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="images/xml.png" width="24" />
+						<p:dataExporter type="xml" target="tblEmpleados" fileName="reporteEmpleados" />
+					</h:commandLink>
+
+				</div>
+			</f:facet>
+
+			<p:column headerText="Nombre" filterBy="#{empleado.nombre}"
+				filterMatchMode="contains" sortBy="#{empleado.nombre}">
+
+				<h:outputText value="#{empleado.nombre}"></h:outputText>
+			</p:column>
+
+			<p:column headerText="Primer Apellido">
+
+				<h:outputText value="#{empleado.primerApellido}"></h:outputText>
+			</p:column>
+
+			<p:column headerText="Segundo Apellido">
+
+				<h:outputText value="#{empleado.segundoApellido}"></h:outputText>
+			</p:column>
+
+			<p:column headerText="Puesto" sortBy="#{empleado.puesto}">
+				<h:outputText value="#{empleado.puesto}"></h:outputText>
+			</p:column>
+
+			<p:column headerText="Status">
+				<h:outputText value="ACTIVO" rendered="#{empleado.estatus}"></h:outputText>
+				<h:outputText value="INACTIVO" rendered="#{!empleado.estatus}"></h:outputText>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
 </h:body>
 </html>
